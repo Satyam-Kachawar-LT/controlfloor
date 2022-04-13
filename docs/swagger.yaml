@@ -147,6 +147,20 @@ paths:
         required: true
         type: integer
       summary: Device - Click coordinate
+  /device/autoAcceptAlerts:
+    post:
+      parameters:
+      - description: Device UDID
+        in: formData
+        name: udid
+        required: true
+        type: string
+      - description: autoAcceptAlerts
+        in: formData
+        name: autoAcceptAlerts
+        required: true
+        type: string
+      summary: Device - Autoaccept Alerts
   /device/hardPress:
     post:
       parameters:

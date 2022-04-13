@@ -52,6 +52,19 @@ func (self *ProviderConnection) doClick(udid string, x int, y int, onDone func(u
 	self.provChan <- click
 }
 
+func (self *ProviderConnection) handleAutoAcceptAlerts(udid string, autoAcceptAlerts string, onDone func(uj.JNode, []byte)) {
+	action := &ProvAutoAcceptAlerts{
+		udid:             udid,
+		autoAcceptAlerts: autoAcceptAlerts,
+		onRes:            onDone,
+	}
+	if self == nil || self.provChan == nil {
+		errorChannelGone(action)
+		return
+	}
+	self.provChan <- action
+}
+
 func (self *ProviderConnection) doDoubleclick(udid string, x int, y int, onDone func(uj.JNode, []byte)) {
 	click := &ProvDoubleclick{
 		udid:  udid,

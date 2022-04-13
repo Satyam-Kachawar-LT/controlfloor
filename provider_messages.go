@@ -60,6 +60,20 @@ func (self *ProvRotate) asText(id int16) string {
 	return fmt.Sprintf("{id:%d,type:\"rotate\",udid:\"%s\",isPortrait:%v}\n", id, self.udid, self.isPortrait)
 }
 
+type ProvAutoAcceptAlerts struct {
+	udid             string
+	autoAcceptAlerts string
+	onRes            func(uj.JNode, []byte)
+}
+
+func (self *ProvAutoAcceptAlerts) resHandler() func(data uj.JNode, rawData []byte) {
+	return self.onRes
+}
+func (self *ProvAutoAcceptAlerts) needsResponse() bool { return true }
+func (self *ProvAutoAcceptAlerts) asText(id int16) string {
+	return fmt.Sprintf("{id:%d,type:\"autoAcceptAlerts\",udid:\"%s\",autoAcceptAlerts:\"%s\"}\n", id, self.udid, self.autoAcceptAlerts)
+}
+
 func (self *ProvClick) resHandler() func(data uj.JNode, rawData []byte) {
 	return self.onRes
 }

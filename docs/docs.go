@@ -164,6 +164,27 @@ var doc = `{
                 ]
             }
         },
+        "/device/autoAcceptAlerts": {
+            "post": {
+                "summary": "Device - Auto Accept Alerts",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Device UDID",
+                        "name": "udid",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Auto Accept Alerts",
+                        "name": "autoAcceptAlerts",
+                        "in": "formData",
+                        "required": true
+                    }
+                ]
+            }
+        },
         "/device/hardPress": {
             "post": {
                 "summary": "Device - Hard press coordinate",
