@@ -89,6 +89,7 @@ func (self *DevHandler) registerDeviceRoutes() {
 
 	aAuth.POST("/device/allowApp", func(c *gin.Context) { self.handleDevAllowApp(c) })
 	aAuth.POST("/device/restrictApp", func(c *gin.Context) { self.handleDevRestrictApp(c) })
+	aAuth.POST("/device/autoAcceptAlerts", func(c *gin.Context) { self.handleAutoAcceptAlerts(c) })
 	aAuth.GET("/device/listRestrictedApps", func(c *gin.Context) { self.handleDevListRestrictedApps(c) })
 
 	uAuth.GET("/device/video", self.showDevVideo)
@@ -495,6 +496,29 @@ func (self *DevHandler) handleDevClick(c *gin.Context) {
 	done := make(chan bool)
 
 	pc.doClick(udid, x, y, func(uj.JNode, []byte) {
+		done <- true
+	})
+
+	<-done
+
+	c.HTML(http.StatusOK, "error", gin.H{
+		"text": "ok",
+	})
+}
+
+func (self *DevHandler) handleAutoAcceptAlerts(c *gin.Context) {
+	autoAcceptAlerts := c.PostForm("autoAcceptAlerts")
+	pc, udid := self.getPc(c)
+	if pc == nil {
+		c.HTML(http.StatusOK, "error", gin.H{
+			"text": "nok",
+		})
+		return
+	}
+
+	done := make(chan bool)
+
+	pc.handleAutoAcceptAlerts(udid, autoAcceptAlerts, func(uj.JNode, []byte) {
 		done <- true
 	})
 
